@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX_HISTORY 100
+
+int historyIndex = 0;
+char history[MAX_HISTORY][50];
+
+void addToHistory(const char* record)
+{
+    if(historyIndex < MAX_HISTORY)
+    {
+        strcpy(history[historyIndex], record);
+        historyIndex++;
+    }
+}
+
+void showHistory()
+{
+    if(historyIndex == 0)
+    {
+        printf("No history available.\n");
+    }
+    else
+    {
+        printf("Calculation History:\n");
+        for(int i = 0; i < historyIndex; i++) {
+            printf("%d. %s\n", i+1, history[i]);
+        }
+    }
+}
+
+int main()
+{
+    int choice;
+    int A, B;
+    char record[50];
+    while(1)
+    {
+        printf("\nWelcomr! This is the Calculator Menu__\n");
+        printf("1. Addition\n2. Subtraction\n3. Multiplication\n4. Division\n5. Modulus\n6. Show History\n7. Exit\n");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+        if(choice == 7)
+        {
+            printf("Exiting...\n");
+            break;
+        }
+        if(choice == 6)
+        {
+            showHistory();
+            continue;
+        }
+        printf("Enter two numbers: ");
+        scanf("%d %d", &A, &B);
+        switch(choice)
+        {
+            case 1:
+                printf("%d + %d = %d\n", A, B, A+B);
+                sprintf(record, "%d + %d = %d", A, B, A+B);
+                addToHistory(record);
+                break;
+            case 2:
+                printf("%d - %d = %d\n", A, B, A-B);
+                sprintf(record, "%d - %d = %d", A, B, A-B);
+                addToHistory(record);
+                break;
+            case 3:
+                printf("%d * %d = %d\n", A, B, A*B);
+                sprintf(record, "%d * %d = %d", A, B, A*B);
+                addToHistory(record);
+                break;
+            case 4:
+                if(B != 0)
+                {
+                    printf("%d / %d = %.2f\n", A, B, (float)A/B);
+                    sprintf(record, "%d / %d = %.2f", A, B, (float)A/B);
+                    addToHistory(record);
+                }
+                else
+                {
+                    printf("Error: Division by zero\n");
+                }
+                break;
+            case 5:
+                if(B != 0)
+                {
+                    printf("%d %% %d = %d\n", A, B, A%B);
+                    sprintf(record, "%d %% %d = %d", A, B, A%B);
+                    addToHistory(record);
+                }
+                else
+                {
+                    printf("Error: Modulus by zero\n");
+                }
+                break;
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+    return 0;
+}
